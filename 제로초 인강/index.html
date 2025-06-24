@@ -75,7 +75,9 @@
         * {
             box-sizing: border-box;
         }
-        
+        html {
+            font-size: 10.5px;
+        }
         html, body, form {
             margin: 0;
             padding: 0;
@@ -230,6 +232,9 @@
             display: inline-flex;
             position: relative;
         }
+        #search > form:hover {
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .12);
+        }
         #search-svg {
             display: inline-flex;
             width: 67px;
@@ -255,6 +260,13 @@
             line-height: 24px;
             font-weight: bold;
         }
+        #search-input::placeholder {
+            color: white
+        }
+        #search-input:focus::placeholder {
+            color: #e4e4e4;
+            font-weight: normal;
+        }
         #search-right {
             display: flex;
             flex: 1;
@@ -276,6 +288,9 @@
             width: 24px;
             height: 14px;
         }
+        #search-keyboard:hover::before {
+            filter: brightness(0.7);
+        }
         #search-recent::before {
             content: "";
             display: block;
@@ -285,6 +300,9 @@
             background-repeat: no-repeat;
             width: 10px;
             height: 6px;
+        }
+        #search-button {
+            padding: 17px 27px 16px 10px;
         }
         .btn-search {
             width: 25px;
