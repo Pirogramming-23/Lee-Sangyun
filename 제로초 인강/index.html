@@ -89,18 +89,28 @@
         }
         #header {
             text-align: left;
+            position: relative;
         }
         #header-hamburger {
-            margin-top: 18px;
+            position: absolute;
+            top: 5px;
+            left: -12px;
             display: inline-block;
             padding: 8px;
             background: none;
             border: none;
             cursor: pointer;
         }
-        #header-hamburger:hover {
+        #header-hamburger:hover::before {
+            content: '';
+            position: absolute;
+            width : 32px;
+            height: 32px;
+            left: 1px;
+            top: 1px;
             border-radius: 50%;
-            background-color: var(--color_option_bg)
+            background-color: var(--color_option_bg);
+            padding: 7px;
         }
         #header-hamburger > div {
             background-image: url(./sp_main.png);
