@@ -85,7 +85,7 @@
         }
         #wrap-center {
             width: 1280px;
-            background-color: yellow;
+            background-color: rgb(255, 255, 255);
             display: inline-block;
         }
         #main {
@@ -94,7 +94,7 @@
         #header {
             text-align: left;
             position: relative;
-            height: 64px;
+            height: 52px;
         }
         #header-hamburger, #header-naverpay, #header-navertalk, #header-notice, #header-basket {
             position: absolute;
@@ -154,7 +154,7 @@
 
         }
 
-         #header-navertalk {
+        #header-navertalk {
             right: 94px;
         }
         #header-navertalk:hover::before {
@@ -228,24 +228,58 @@
             border: 1px solid #03c75a;
             border-radius: 33px;
             display: inline-block;
-            text-align: left;
+            position: relative;
         }
-        #search > form > input {
-            width: 480px;
-            height: 100%;
-            padding: 17px 0px;
-            border: none;
-            outline: none;
-        }
-        #search > form a {
-            width: 68px;
+        #search-svg {
+            display: inline-block;
+            width: 67px;
             height: 100%;
             padding: 17px;
             margin-right: 12px;
+            padding-left: 10px;
         }
-        #search > form svg {
+        #search-svg svg {
             width: 24px;
             height: 24px;
+            fill: #03c75a;
+        }
+        #search-input {
+            width: 480px;
+            height: 58px;
+            padding: 17px 0px;
+            border: none;
+            outline: none;
+            font-size: 2rem;
+            line-height: 24px;
+            font-weight: bold;
+        }
+        #search-right {
+            display: inline-block;
+        }
+        #search-keyboard::before {
+            content: "";
+            display: block;
+            background-image: url(https://pm.pstatic.net/resources/asset/sp_main.04eb92b7.png);
+            background-size: 463px 442px;
+            background-position: -148px -301px;
+            background-repeat: no-repeat;
+            width: 24px;
+            height: 14px;
+        }
+        #search-recent::before {
+            content: "";
+            display: block;
+            background-image: url(https://pm.pstatic.net/resources/asset/sp_main.04eb92b7.png);
+            background-size: 463px 442px;
+            background-position: -453px -422px;
+            background-repeat: no-repeat;
+            width: 10px;
+            height: 6px;
+        }
+        .btn-search {
+            width: 25px;
+            height: 25px;
+            display: block;
         }
     </style>
 </head>
@@ -276,12 +310,25 @@
             </div>
             <div id = "search">
                 <form action="">
-                    <a href = "#">
+                    <a id = "search-svg" href = "#">
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16.273 12.845 7.376 0H0v24h7.727V11.155L16.624 24H24V0h-7.727v12.845z"></path></svg>
                     </a>
                     <label for = "search-input" class = "blind">검색어 입력</label>
                     <input id = "search-input" type = "text" placeholder = "검색어를 입력하세요.">
-                    <button calss = "blind">검색</button>
+                    <div id = "search-right">
+                        <button href = "#" id = "search-keyboard">
+                            <span class = "blind">입력도구</span>
+                        </button>
+                        <button href = "#" id = "search-recent">
+                            <span class = "blind">자동완성/최근검색어펼치기</span>
+                        </button>
+                        <button id = "search-button">
+                            <span class = "btn-search">
+                                <svg id="search-btn" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg" style="fill: #03c75a"> <path d="M22.13.5c11.378 0 20.632 9.256 20.632 20.63 0 4.699-1.566 9.155-4.439 12.782l10.164 10.165a2.41 2.41 0 0 1-1.706 4.115 2.412 2.412 0 0 1-1.706-.705L33.31 35.719a2.41 2.41 0 0 1 0-3.41 15.71 15.71 0 0 0 4.628-11.178c0-8.718-7.09-15.808-15.807-15.808-8.718 0-15.808 7.09-15.808 15.808 0 7.15 4.817 13.43 11.714 15.273a2.41 2.41 0 0 1 1.705 2.954 2.41 2.41 0 0 1-2.95 1.705C7.788 38.658 1.5 30.46 1.5 21.131 1.5 9.756 10.756.5 22.13.5zm4.716 34.746a3.483 3.483 0 1 1 0 6.966 3.483 3.483 0 0 1 0-6.966z"></path> </svg>
+                            </span>
+                            <div><span class = "blind">검색</span></div>
+                        </button>
+                    </div>
                 </form>
             </div>
             <div id = "nav"></div>
