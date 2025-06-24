@@ -418,6 +418,58 @@
             display: inline-block;
             margin-top: 2px;
         }
+        #main {
+            display: flex;
+            margin-top: 60px;
+        }
+        #main-left {
+            width: 830px;
+            margin-right: 30px;
+        }
+        #main-right {
+            width: 420px;
+        }
+        #main-left-ad, #main-right-ad {
+            background-color: gray;
+        }
+        aside[id$=ad] {
+            border-radius: 8px;
+        }
+        #main-left-ad {
+            height: 130px;
+            margin-bottom: 16px;
+        }
+        section[id^=main] {
+            box-shadow: 0 0 0 1px #e3e5e8, 0 1px 2px 0 rgba(0, 0, 0, .04);
+            border-radius: 8px;
+        }
+        #main-newstand {
+            height: 426px;
+        }
+        #main-shopping {
+            height: 560px;
+            margin-top: 16px;
+        }
+        #main-login {
+            height: 164px;
+        }
+        #main-right-ad {
+            margin-top: 16px;
+            height: 240px;
+            
+        }
+        #main-weather, #main-stock {
+            margin-top: 16px;
+            height: 236px;
+            padding: 0 18px;
+        }
+        #main-weather > header, #main-stock > header {
+            height: 52px;
+            padding: 6px 0;
+        }
+        #main-weather > div, #main-stock > div {
+            border-top: 1px solid var(--color_border_in);
+        }
     </style>
 </head>
 <body>
@@ -468,7 +520,7 @@
                     </div>
                 </form>
             </div>
-            <div id = "nav">
+            <nav id = "nav">
                 <ul>
                     <li><a href = "#">
                             <div></div>
@@ -521,8 +573,26 @@
                         </a>
                     </li>
                 </ul>
-            </div>
-            <div id = "main"></div>
+            </nav>
+            <main id = "main">
+                <div id="main-left">
+                    <aside id = "main-left-ad"></aside>
+                    <section id="main-newstand"></section>
+                    <section id="main-shopping"></section>
+                </div>
+                <div id="main-right">
+                    <section id="main-login"></section>
+                    <aside id = "main-right-ad"></aside>
+                    <section id="main-weather">
+                        <header>날씨</header>
+                        <div></div>
+                    </section>
+                    <section id="main-stock">
+                        <header>증시</header>
+                        <div></div>
+                    </section>
+                </div>
+            </main>
         </div>
     </div>
 </body>
