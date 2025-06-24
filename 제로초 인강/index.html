@@ -302,7 +302,7 @@
         #search-keyboard::before {
             content: "";
             display: block;
-            background-image: url(https://pm.pstatic.net/resources/asset/sp_main.04eb92b7.png);
+            background-image: url(./sp_main.png);
             background-size: 463px 442px;
             background-position: -148px -301px;
             background-repeat: no-repeat;
@@ -315,7 +315,7 @@
         #search-recent::before {
             content: "";
             display: block;
-            background-image: url(https://pm.pstatic.net/resources/asset/sp_main.04eb92b7.png);
+            background-image: url(./sp_main.png);
             background-size: 463px 442px;
             background-position: -453px -422px;
             background-repeat: no-repeat;
@@ -355,7 +355,7 @@
             position: relative;
             z-index: 1;
             display: inline-block;
-            background-image: url(https://pm.pstatic.net/resources/asset/sp_main.04eb92b7.png);
+            background-image: url(./sp_main.png);
             background-size: 463px 442px;
             background-repeat: no-repeat;
             width: 40px;
@@ -377,7 +377,7 @@
             position: absolute;
             top: -1px;
             left: -3px;
-            background-image: url(https://pm.pstatic.net/resources/asset/sp_main.04eb92b7.png);
+            background-image: url(./sp_main.png);
             background-size: 463px 442px;
             background-position: -153px -142px;
             background-repeat: no-repeat;
@@ -420,7 +420,7 @@
         }
         #main {
             display: flex;
-            margin-top: 60px;
+            margin-top: 28px;
         }
         #main-left {
             width: 830px;
@@ -452,6 +452,64 @@
         }
         #main-login {
             height: 164px;
+            padding: 21px 20px 18px;
+            font-size: 1.4rem;
+            display: flex;
+            flex-flow: column;
+        }
+        #main-login > div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #main-login > div:first-of-type {
+            line-height: 20px;
+        }
+        #main-login > div:last-of-type {
+            font-size: 1.3rem;
+        }
+        #main-login > div:last-of-type > a {
+            text-decoration: none;
+            color: var(--color_caption2);
+            letter-spacing: -0.4px;
+        }
+        #main-login > div:last-of-type > a:first-of-type, #main-login > div:last-of-type > a:last-of-type {
+            top: 2.5px;
+            position: relative;
+        }
+        #main-login > div:last-of-type > a:hover {
+            text-decoration: underline;
+        }
+        #main-login > div:last-of-type > a:nth-last-of-type(2)::after, #main-login > div:last-of-type > a:nth-last-of-type(2)::before{
+            content: '';
+            display: inline-block;
+            width: 1px;
+            height: 12px;
+            background-color: #d3d5d7;
+            background-color: var(--color_dot_divider);
+            margin: 4px 12px 0;
+        }
+        #main-login-button {
+            margin-top: 13px;
+            padding: 17px 0;
+            background-color: #03c75a;
+            color: white;
+            border: 1px solid rgba(0, 0, 0, .06);
+            height: 56px;
+            border-radius: 4px;
+            text-decoration: none;
+            margin-bottom: 16px;
+        }
+        #main-login-button i {
+            background-image: url(./sp_main.png);
+            background-size: 463px 442px;
+            background-position: 0px -301px;
+            background-repeat: no-repeat;
+            width: 72px;
+            height: 14px;
+            display: inline-block;
+            margin: 3px 8px 0 0;
+            vertical-align: -1px;
         }
         #main-right-ad {
             margin-top: 16px;
@@ -581,7 +639,15 @@
                     <section id="main-shopping"></section>
                 </div>
                 <div id="main-right">
-                    <section id="main-login"></section>
+                    <section id="main-login">
+                        <div>네이버를 더 안전하고 편리하게 이용하세요</div>
+                        <a href = "#" id = "main-login-button"><i></i>로그인</a>
+                        <div>
+                            <a href = "#">아이디 찾기</a>
+                            <a href = "#">비밀번호 찾기</a>
+                            <a href = "#">회원가입</a>
+                        </div>
+                    </section>
                     <aside id = "main-right-ad"></aside>
                     <section id="main-weather">
                         <header>날씨</header>
