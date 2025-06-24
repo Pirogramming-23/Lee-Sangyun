@@ -227,16 +227,18 @@
             height: 60px;
             border: 1px solid #03c75a;
             border-radius: 33px;
-            display: inline-block;
+            display: inline-flex;
             position: relative;
         }
         #search-svg {
-            display: inline-block;
+            display: inline-flex;
             width: 67px;
             height: 100%;
-            padding: 17px;
+            padding-left: 10px;
             margin-right: 12px;
             padding-left: 10px;
+            justify-content: center;
+            align-items: center;
         }
         #search-svg svg {
             width: 24px;
@@ -254,7 +256,15 @@
             font-weight: bold;
         }
         #search-right {
-            display: inline-block;
+            display: flex;
+            flex: 1;
+            align-items: stretch;
+            justify-content: flex-end;
+        }
+        #search-keyboard, #search-recent, #search-button {
+            background: transparent;
+            border: none;
+            cursor: pointer;
         }
         #search-keyboard::before {
             content: "";
