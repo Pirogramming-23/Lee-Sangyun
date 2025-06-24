@@ -72,6 +72,10 @@
             --color_shop: #9858f5;
             --color_shop_rgb: 152, 88, 245;
         }
+        * {
+            box-sizing: border-box;
+        }
+        
         html, body {
             margin: 0;
             padding: 0;
@@ -91,15 +95,25 @@
             text-align: left;
             position: relative;
         }
-        #header-hamburger {
+        #header-hamburger, #header-naverpay, #header-navertalk, #header-notice, #header-basket {
             position: absolute;
             top: 5px;
-            left: -12px;
             display: inline-block;
             padding: 8px;
             background: none;
             border: none;
             cursor: pointer;
+        }
+        #header-hamburger > div, #header-naverpay > div, #header-navertalk > div, #header-notice > div, #header-basket > div {
+            position: relative;
+            z-index: 1;
+            background-image: url(./sp_main.png);
+            width: 32px;
+            height: 32px;
+            background-repeat: no-repeat;
+        }
+        #header-hamburger {
+            left: -12px;
         }
         #header-hamburger:hover::before {
             content: '';
@@ -114,15 +128,91 @@
             padding: 7px;
         }
         #header-hamburger > div {
-            position: relative;
-            z-index: 1;
-            background-image: url(./sp_main.png);
-            width: 32px;
-            height: 32px;
-            background-repeat: no-repeat;
             background-position: -311px -166px;
             background-size: 463px 442px;
         }
+
+        #header-naverpay {
+            left: 41px;
+        }
+        #header-naverpay :hover::before {
+            content: '';
+            position: absolute;
+            z-index: 0;
+            width : 32px;
+            height: 32px;
+            left: 1px;
+            top: 1px;
+            border-radius: 50%;
+            background-color: var(--color_option_bg);
+            padding: 7px;
+        }
+        #header-naverpay > div {
+            background-size: 463px 442px;
+            background-position: -248px -260px;
+
+        }
+
+         #header-navertalk {
+            right: 94px;
+        }
+        #header-navertalk:hover::before {
+            content: '';
+            position: absolute;
+            z-index: 0;
+            width : 32px;
+            height: 32px;
+            left: 1px;
+            top: 1px;
+            border-radius: 50%;
+            background-color: var(--color_option_bg);
+            padding: 7px;
+        }
+        #header-navertalk > div {
+            background-size: 463px 442px;
+            background-position: -99px -316px;
+        }
+
+         #header-notice {
+            right: 42px;
+        }
+        #header-notice:hover::before {
+            content: '';
+            position: absolute;
+            z-index: 0;
+            width : 32px;
+            height: 32px;
+            left: 1px;
+            top: 1px;
+            border-radius: 50%;
+            background-color: var(--color_option_bg);
+            padding: 7px;
+        }
+        #header-notice > div {
+            background-size: 463px 442px;
+            background-position: -311px -232px;
+        }
+
+         #header-basket {
+            right: -10px;
+        }
+        #header-basket:hover::before {
+            content: '';
+            position: absolute;
+            z-index: 0;
+            width : 32px;
+            height: 32px;
+            left: 1px;
+            top: 1px;
+            border-radius: 50%;
+            background-color: var(--color_option_bg);
+            padding: 7px;
+        }
+        #header-basket > div {
+            background-size: 463px 442px;
+            background-position: -33px -316px;
+        }
+
         .blind {
             position: absolute;
             clip: rect(0 0 0 0);
@@ -138,6 +228,22 @@
         <div id = "wrap-center">
             <div id = "header">
                 <button id ="header-hamburger">
+                    <div></div>
+                    <span class="blind">확장 영역</span>
+                </button>
+                <button id ="header-naverpay">
+                    <div></div>
+                    <span class="blind">네이버 페이</span>
+                </button>
+                <button id ="header-navertalk">
+                    <div></div>
+                    <span class="blind">네이버톡</span>
+                </button>
+                <button id ="header-notice">
+                    <div></div>
+                    <span class="blind">알림</span>
+                </button>
+                <button id ="header-basket">
                     <div></div>
                     <span class="blind">확장 영역</span>
                 </button>
