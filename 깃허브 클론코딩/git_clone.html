@@ -16,12 +16,12 @@
                     <img src="https://github.githubassets.com/favicons/favicon.svg" alt="GitHub Logo" height="32" width="32">
                 </a>
                 <ul class="nav-links">
-                    <li><a href="#">Why GitHub?</a></li>
+                    <li><a href="#" class="has-dropdown">Why GitHub?</a></li>
                     <li><a href="#">Team</a></li>
                     <li><a href="#">Enterprise</a></li>
-                    <li><a href="#">Explore</a></li>
+                    <li><a href="#" class="has-dropdown">Explore</a></li>
                     <li><a href="#">Marketplace</a></li>
-                    <li><a href="#">Pricing</a></li>
+                    <li><a href="#" class="has-dropdown">Pricing</a></li>
                 </ul>
                 <div class="search-signin">
                     <div class="search-box">
@@ -40,21 +40,21 @@
             <div class="main-grid">
                 <div class="hero-text">
                     <h1>Built for <br> developers</h1>
-                    <p>GitHub is a development platform inspired by the way you work. From open source to business, you can host and review code, manage projects, and build software alongside 50 million developers.</p>
+                    <p>GitHub is a development platform inspired by the way you work. From <u class = "white">open source</u> to <u class = "white">business</u>, you can host and review code, manage projects, and build software alongside 50 million developers.</p>
                 </div>
                 <div class="signup-form">
                     <form>
                         <div class="form-group">
                             <label for="username">Username</label>
-                            <input type="text" id="username" name="username">
+                            <input type="text" id="username" name="username" required>
                         </div>
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input type="email" id="email" name="email">
+                            <input type="email" id="email" name="email" required>
                         </div>
                         <div class="form-group">
                             <label for="password">Password</label>
-                            <input type="password" id="password" name="password">
+                            <input type="password" id="password" name="password" required>
                             <small>Make sure it's at least 15 characters OR at least 8 characters including a number and a lowercase letter. <a href="#">Learn more.</a></small>
                         </div>
                         <button type="submit" class="btn-signup">Sign up for GitHub</button>
@@ -65,7 +65,7 @@
         </div>
     </main>
     <footer>
-        
+        <img src="footer.webp" alt="GitHub Footer Image" class="footer-image">
     </footer>
 </body>
 </html>
