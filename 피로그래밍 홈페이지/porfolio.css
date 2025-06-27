@@ -7,7 +7,7 @@
 body {
     background-color: #000;
     color: #fff;
-    font-family: "Nexon", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+    font-family: "Nexon", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "NEXON Lv1 Gothic OTF", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
     margin: 0 auto;
     padding: 0;
 }
@@ -104,7 +104,7 @@ main {
 }
 
 .project-list {
-    display: flex;
+    display: grid;
     flex-direction: column;
 }
 
