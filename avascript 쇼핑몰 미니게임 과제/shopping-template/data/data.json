@@ -5,56 +5,56 @@
             "gender": "female",
             "size": "large",
             "color": "pink",
-            "image": "../img/pink_t.png"
+            "image": "./img/pink_t.png"
         },
         {
             "type": "pants",
             "gender": "male",
             "size": "large",
             "color": "pink",
-            "image": "../img/pink_p.png"
+            "image": "./img/pink_p.png"
         },
         {
             "type": "pants",
             "gender": "male",
             "size": "small",
             "color": "yellow",
-            "image": "../img/yellow_p.png"
+            "image": "./img/yellow_p.png"
         },
         {
             "type": "skirt",
             "gender": "female",
             "size": "small",
             "color": "yellow",
-            "image": "../img/yellow_s.png"
+            "image": "./img/yellow_s.png"
         },
         {
             "type": "skirt",
             "gender": "male",
             "size": "large",
             "color": "blue",
-            "image": "../img/blue_s.png"
+            "image": "./img/blue_s.png"
         },
         {
             "type": "tshirt",
             "gender": "female",
             "size": "small",
             "color": "yellow",
-            "image": "../img/yellow_t.png"
+            "image": "./img/yellow_t.png"
         },
         {
             "type": "skirt",
             "gender": "female",
             "size": "large",
             "color": "pink",
-            "image": "../img/pink_s.png"
+            "image": "./img/pink_s.png"
         },
         {
             "type": "pants",
             "gender": "female",
             "size": "medium",
             "color": "blue",
-            "image": "../img/blue_p.png"
+            "image": "./img/blue_p.png"
         },
 
         {
@@ -62,7 +62,7 @@
             "gender": "male",
             "size": "medium",
             "color": "blue",
-            "image": "../img/blue_p.png"
+            "image": "./img/blue_p.png"
         },
 
         {
@@ -70,7 +70,7 @@
             "gender": "male",
             "size": "small",
             "color": "pink",
-            "image": "../img/pink_s.png"
+            "image": "./img/pink_s.png"
         }
     ]
 }
