@@ -8,7 +8,24 @@ let answer;
 let attempts; 
 
 function startGame() {
-    attempts = 10;
+    let initialAttemptsInput;
+    while (true) {
+        initialAttemptsInput = prompt("시도할 횟수를 입력하세요 (1~20 사이)", "10");
+        // 사용자가 '취소'를 누른 경우
+        if (initialAttemptsInput === null) {
+            attempts = 10; // 기본값 10으로 설정
+            alert("기본 횟수인 10회로 게임을 시작합니다.");
+            break;
+        }
+        const parsedAttempts = parseInt(initialAttemptsInput, 10);
+        // 입력값이 유효한 숫자인지 확인
+        if (!isNaN(parsedAttempts) && parsedAttempts > 0 && parsedAttempts <= 20) {
+            attempts = parsedAttempts;
+            break;
+        } else {
+            alert("1에서 20 사이의 유효한 숫자를 입력해주세요.");
+        }
+    }
     attemptsSpan.textContent = attempts;
 
     answer = [];
@@ -100,6 +117,9 @@ window.check_numbers = function() {
 
 function endGame(isWin) {
     submitButton.disabled = true;
+    numberInputs.forEach(input => {
+        input.disabled = true;
+    });
     resultImage.style.display = 'block';
 
     const finalMessage = document.createElement('div');
@@ -108,10 +128,10 @@ function endGame(isWin) {
 
     if (isWin) {
         resultImage.src = 'success.png';
-        finalMessage.innerHTML = `<div class="final-message" style="color: blue;">🎉 정답입니다! 🎉</div>`;
+        finalMessage.innerHTML = `<div class="final-message" style="color: blue;"> 정답입니다! </div>`;
     } else {
         resultImage.src = 'fail.png';
-        finalMessage.innerHTML = `<div class="final-message" style="color: red;">😭 실패! 정답은 ${answer.join('')} 😭</div>`;
+        finalMessage.innerHTML = `<div class="final-message" style="color: red;">실패! 정답은 ${answer.join('')}</div>`;
     }
     resultDisplay.appendChild(finalMessage);
     resultDisplay.scrollTop = resultDisplay.scrollHeight;
