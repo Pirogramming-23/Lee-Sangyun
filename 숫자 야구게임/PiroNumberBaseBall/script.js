@@ -11,14 +11,12 @@ function startGame() {
     let initialAttemptsInput;
     while (true) {
         initialAttemptsInput = prompt("시도할 횟수를 입력하세요 (1~20 사이)", "10");
-        // 사용자가 '취소'를 누른 경우
         if (initialAttemptsInput === null) {
-            attempts = 10; // 기본값 10으로 설정
+            attempts = 10; 
             alert("기본 횟수인 10회로 게임을 시작합니다.");
             break;
         }
         const parsedAttempts = parseInt(initialAttemptsInput, 10);
-        // 입력값이 유효한 숫자인지 확인
         if (!isNaN(parsedAttempts) && parsedAttempts > 0 && parsedAttempts <= 20) {
             attempts = parsedAttempts;
             break;
