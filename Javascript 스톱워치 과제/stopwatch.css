@@ -1,0 +1,242 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', 'Pretendard', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #000000;
+    color: #333;
+}
+
+.container {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+}
+
+.container-title {
+    color: #0BEC1E;
+    text-align: center;
+}
+
+.fa-regular {
+    margin-right: 10px;
+}
+.mode-switcher {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    background-color: #545454;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.mode-switcher button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    background-color: transparent;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.mode-switcher button.active {
+    background-color: #545454;
+    color: #0BEC1E;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.stopwatch {
+    background-color: #333333;
+    padding: 30px;
+    border-radius: 25px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#display {
+    background-color: #545454;
+    border-radius: 15px;
+    padding: 20px;
+    font-size: 3.5rem;
+    font-family: 'Roboto Mono', monospace;
+    color: #ffffff;
+    margin-bottom: 25px;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.timer-settings {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.timer-settings input {
+    width: 60px;
+    padding: 10px;
+    font-size: 1.2rem;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-family: 'Roboto Mono', monospace;
+}
+
+.timer-settings span {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.buttons button {
+    font-family: 'Inter', 'Pretendard', sans-serif;
+    background-color: #545454;
+    border: none;
+    border-radius: 10px;
+    color: #ffffff;
+    padding: 12px 24px;
+    margin: 0 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.buttons button:hover {
+    color: #0BEC1E;
+    transform: translateY(-2px);
+}
+
+.buttons button:active {
+    transform: translateY(0);
+}
+
+.laps-container {
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.laps-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 20px;
+    background-color: #333333;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.laps-header label {
+    cursor: pointer;
+}
+
+#selectAllCheckbox {
+    display: none;
+}
+
+.checkbox-icon-all {
+    cursor: pointer;
+    font-size: 1.2rem;
+    width: 20px;
+    display: inline-block;
+    text-align: center;
+}
+
+.checkbox-icon-all .fa-check-circle { 
+    display: none; 
+}
+.checkbox-icon-all .fa-circle { 
+    color: #888; 
+}
+
+#selectAllCheckbox:checked + .checkbox-icon-all .fa-circle { 
+    display: none; 
+}
+
+#selectAllCheckbox:checked + .checkbox-icon-all .fa-check-circle { 
+    display: inline-block; 
+    color: #0BEC1E; 
+}
+
+#deleteButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1rem;
+    color: #888;
+    transition: color 0.2s ease;
+}
+
+#deleteButton:hover {
+    color: #e74c3c;
+}
+
+#laps {
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 10px 20px;
+    background-color: #545454;
+}
+
+.lap-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 1.1rem;
+    color: #ffffff;
+}
+
+.lap-item:last-child {
+    border-bottom: none;
+}
+
+.lap-item .lap-checkbox {
+    display: none;
+}
+
+.lap-item .checkbox-icon {
+    cursor: pointer;
+    font-size: 1.2rem;
+    margin-right: 15px;
+    width: 20px;
+    display: inline-block;
+    text-align: center;
+}
+
+.lap-item .checkbox-icon .fa-check-circle { 
+    display: none; 
+}
+.lap-item .checkbox-icon .fa-circle { 
+    color: #ccc; 
+}
+
+.lap-item .lap-checkbox:checked + .checkbox-icon .fa-circle { 
+    display: none; 
+}
+.lap-item .lap-checkbox:checked + .checkbox-icon .fa-check-circle { 
+    display: inline-block; 
+    color: #0BEC1E; 
+}

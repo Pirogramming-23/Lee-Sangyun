@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>스톱워치 & 타이머</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="stopwatch.css">
+</head>
+<body>
+    <div class="container">
+        <h2 class = "container-title"><i class="fa-regular fa-clock"></i>피로그래밍 스탑워치</h2>
+        <div class="mode-switcher">
+            <button id="stopwatchModeButton" class="active">스톱워치</button>
+            <button id="timerModeButton">타이머</button>
+        </div>
+
+        <div class="stopwatch">
+            <div id="display">00:00:00</div>
+            
+            <div class="timer-settings" style="display: none;">
+                <input type="number" id="minutesInput" min="0" max="59" value="0">
+                <span>분</span>
+                <input type="number" id="secondsInput" min="0" max="59" value="0">
+                <span>초</span>
+            </div>
+
+            <div class="buttons">
+                <button id="startButton">start</button>
+                <button id="stopButton">stop</button>
+                <button id="resetButton">reset</button>
+            </div>
+        </div>
+
+        <div class="laps-container">
+            <div class="laps-header">
+                <input type="checkbox" id="selectAllCheckbox">
+                <label for="selectAllCheckbox" class="checkbox-icon-all">
+                    <i class="fa-regular fa-circle"></i><i class="fa-solid fa-check-circle"></i>
+                </label>
+                <label for="selectAllCheckbox">구간 기록</label>
+                <button id="deleteButton"><i class="fa-solid fa-trash-can"></i></button>
+            </div>
+            <div id="laps"></div>
+        </div>
+    </div>
+
+    <script src="stopwatch.js"></script>
+</body>
+</html>
