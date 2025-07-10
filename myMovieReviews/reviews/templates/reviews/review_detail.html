@@ -18,7 +18,7 @@
     <p><strong>주연:</strong> {{ review.actors }}</p>
     <p><strong>장르:</strong> {{ review.get_genre_display }}</p>
     <p><strong>별점:</strong> {{ review.rating }}</p>
-    <p><strong>러닝타임:</strong> {{ review.running_time }}분</p>
+    <p><strong>러닝타임:</strong> {{ running_time_display }}</p>
     <hr>
     <p>{{ review.content|linebreaksbr }}</p>
 </div>

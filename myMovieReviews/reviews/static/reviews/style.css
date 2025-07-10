@@ -5,7 +5,7 @@
 }
 
 body {
-    background-color: #f0f2f5;
+    background-color: #F2F2F2;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     color: #333;
     line-height: 1.6;
@@ -73,7 +73,6 @@ img {
     text-align: center;
     vertical-align: middle;
     cursor: pointer;
-    border: 1px solid transparent;
     padding: 0.5rem 1rem;
     font-size: 0.9rem;
     border-radius: 0.25rem;
@@ -81,14 +80,15 @@ img {
 }
 
 .btn-primary {
-    color: #fff;
-    background-color: #0d6efd;
-    border-color: #0d6efd;
+    color: #ffffff;
+    background-color: #EAE4D5;
+    border-color: #EAE4D5;
+    border: none;
 }
 
 .btn-primary:hover {
-    background-color: #0b5ed7;
-    border-color: #0a58ca;
+    background-color: #B6B09F;
+    border-color: #B6B09F;
     text-decoration: none;
 }
 
@@ -121,7 +121,7 @@ img {
 
 .card-img-placeholder {
     height: 250px;
-    background-color: #f0f2f5;
+    background-color: #EAE4D5;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -189,9 +189,9 @@ img {
 .form-control:focus {
     color: #212529;
     background-color: #fff;
-    border-color: #86b7fe;
+    border-color: #EAE4D5;
     outline: 0;
-    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    box-shadow: 0 0 0 0.25rem rgba(234, 228, 213, 0.25);
 }
 
 textarea.form-control {
@@ -216,6 +216,9 @@ textarea.form-control {
 }
 .detail-actions .btn {
     margin-left: 0.5rem;
+    height: 2rem;
+    display: inline;
+    border: none;
 }
 .detail-content {
     background-color: #fff;

@@ -2,9 +2,6 @@ from django.db import models
 from django.urls import reverse
 
 class Review(models.Model):
-    """
-    영화 리뷰 데이터를 저장하기 위한 모델
-    """
     GENRE_CHOICES = [
         ('Action', '액션'),
         ('Comedy', '코미디'),
@@ -30,8 +27,4 @@ class Review(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        """
-        객체의 상세 페이지 URL을 반환합니다.
-        UpdateView에서 수정 후 이동할 경로로 사용됩니다.
-        """
         return reverse('reviews:detail', kwargs={'pk': self.pk})

@@ -1,48 +1,66 @@
-from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Review
 from .forms import ReviewForm
 
-# 리뷰 리스트
-class ReviewListView(ListView):
-    model = Review
-    context_object_name = 'reviews'
-    template_name = 'reviews/review_list.html'
-    ordering = ['-created_at']
+def review_list(request):
+    reviews = Review.objects.all().order_by('-created_at')
+    context = {'reviews': reviews}
+    return render(request, 'reviews/review_list.html', context)
 
-# 리뷰 상세
-class ReviewDetailView(DetailView):
-    model = Review
-    context_object_name = 'review'
-    template_name = 'reviews/review_detail.html'
+def review_detail(request, pk):
+    review = get_object_or_404(Review, pk=pk)
+    running_time_in_minutes = review.running_time
+    formatted_time = ""
+    if running_time_in_minutes:
+        hours = running_time_in_minutes // 60
+        minutes = running_time_in_minutes % 60
+        
+        if hours > 0 and minutes > 0:
+            formatted_time = f"{hours}시간 {minutes}분"
+        elif hours > 0:
+            formatted_time = f"{hours}시간"
+        else:
+            formatted_time = f"{minutes}분"
+    context = {
+        'review': review,
+        'running_time_display': formatted_time,
+    }
+    return render(request, 'reviews/review_detail.html', context)
 
-# 리뷰 작성
-class ReviewCreateView(CreateView):
-    model = Review
-    form_class = ReviewForm
-    template_name = 'reviews/review_form.html'
-    success_url = reverse_lazy('reviews:list')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['page_title'] = 'Movie review'
-        return context
-
-# 리뷰 수정
-class ReviewUpdateView(UpdateView):
-    model = Review
-    form_class = ReviewForm
-    template_name = 'reviews/review_form.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['page_title'] = 'Movie review'
-        return context
-
-# 리뷰 삭제
-class ReviewDeleteView(DeleteView):
-    model = Review
-    success_url = reverse_lazy('reviews:list')
+def review_create(request):
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('reviews:list')
+    else:
+        form = ReviewForm()
     
-    def get(self, request, *args, **kwargs):
-        return self.post(request, *args, **kwargs)
+    context = {
+        'form': form,
+        'page_title': 'Movie review 작성 🍿'
+    }
+    return render(request, 'reviews/review_form.html', context)
+
+def review_update(request, pk):
+    review = get_object_or_404(Review, pk=pk)
+    if request.method == 'POST':
+        form = ReviewForm(request.POST, instance=review)
+        if form.is_valid():
+            form.save()
+            return redirect('reviews:detail', pk=review.pk)
+    else:
+        form = ReviewForm(instance=review)
+        
+    context = {
+        'form': form,
+        'page_title': 'Movie review 수정 📝'
+    }
+    return render(request, 'reviews/review_form.html', context)
+
+def review_delete(request, pk):
+    review = get_object_or_404(Review, pk=pk)
+    if request.method == 'POST':
+        review.delete()
+        return redirect('reviews:list')
+    return redirect('reviews:detail', pk=pk)
