@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Movie Reviews</title>
+    <link rel="stylesheet" href="{% static 'reviews/style.css' %}">
+</head>
+<body>
+    <div class="site-wrapper">
+        <header>
+            <nav class="navbar">
+                <div class="container">
+                    <a class="navbar-brand" href="{% url 'reviews:list' %}">my Movie reviews</a>
+                    <div class="navbar-menu">
+                        <a class="btn btn-primary" href="{% url 'reviews:create' %}">새 리뷰 추가하기</a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <main class="container" style="margin-top: 2rem; margin-bottom: 2rem;">
+            {% block content %}
+            {% endblock %}
+        </main>
+    </div>
+</body>
+</html>

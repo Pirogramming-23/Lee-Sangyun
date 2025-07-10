@@ -1,0 +1,28 @@
+{% extends 'reviews/base.html' %}
+
+{% block content %}
+<div class="grid-container">
+    {% for review in reviews %}
+    <div class="grid-col-4">
+        <a href="{% url 'reviews:detail' review.pk %}" style="text-decoration: none; color: inherit;">
+            <div class="card">
+                <div class="card-img-placeholder">
+                    <span>포스터 사진</span>
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">{{ review.title }}</h3>
+                    <p class="card-text">{{ review.release_year }} · {{ review.get_genre_display }}</p>
+                    <p class="card-text" style="font-weight: bold; color: #f5c542;">★ {{ review.rating }}</p>
+                </div>
+            </div>
+        </a>
+    </div>
+    {% empty %}
+    <div style="text-align: center; padding: 4rem 0; width: 100%;">
+        <h4>작성된 리뷰가 없습니다.</h4>
+        <p style="color: #6c757d;">첫 영화 리뷰를 작성해보세요!</p>
+        <a href="{% url 'reviews:create' %}" class="btn btn-primary" style="margin-top: 1rem;">리뷰 작성하기</a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
