@@ -1,4 +1,5 @@
 {% extends 'ideas/base.html' %}
+{% load static %}
 
 {% block content %}
 <div class="header-container">
@@ -16,23 +17,26 @@
 <div class="card-grid">
     {% for idea in page_obj %}
     <div class="card">
-        {% if idea.image %}
-            <img src="{{ idea.image.url }}" alt="{{ idea.title }}">
-        {% else %}
-            <img src="https://via.placeholder.com/300x200.png?text=No+Image">
-        {% endif %}
+        <div class="thumbnail-container">
+            <a href="#" class="star-icon {% if idea.is_starred %}starred{% endif %}" onclick="toggleStar(event, {{ idea.pk }})">★</a>
+            <a href="{% url 'ideas:idea_detail' pk=idea.pk %}">
+            {% if idea.image %}
+                <img src="{{ idea.image.url }}" alt="{{ idea.title }}">
+            {% else %}
+                <img src="{% static 'ideas/no-image.jpg' %}" alt="No image">
+            {% endif %}
+            </a>
+        </div>
+
         <div class="card-body">
             <h5><a href="{% url 'ideas:idea_detail' pk=idea.pk %}">{{ idea.title }}</a></h5>
-            
             <div class="interest-box">
                 <span>관심도: </span>
                 <span id="interest-count-{{ idea.pk }}">{{ idea.interest }}</span>
-                <span> ⭐️</span>
                 <button onclick="updateInterest({{ idea.pk }}, 'plus')">+</button>
                 <button onclick="updateInterest({{ idea.pk }}, 'minus')">-</button>
             </div>
-
-            <a href="{% url 'ideas:idea_detail' pk=idea.pk %}" class="btn-secondary">자세히 보기</a>
+            <a href="{% url 'ideas:idea_detail' pk=idea.pk %}" class="detail-btn">자세히 보기</a>
         </div>
     </div>
     {% empty %}
@@ -69,9 +73,27 @@ function getCookie(name) {
 }
 const csrftoken = getCookie('csrftoken');
 
+function toggleStar(event, ideaId) {
+    event.preventDefault();
+    const url = `/idea/${ideaId}/star/`;
+    fetch(url, {
+        method: 'POST',
+        headers: { 'X-CSRFToken': csrftoken, }
+    })
+    .then(response => response.json())
+    .then(data => {
+        const starIcon = event.target;
+        if (data.is_starred) {
+            starIcon.classList.add('starred');
+        } else {
+            starIcon.classList.remove('starred');
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
 function updateInterest(ideaId, action) {
     const url = `/idea/${ideaId}/update_interest/`;
-    
     fetch(url, {
         method: 'POST',
         headers: {

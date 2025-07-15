@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class DevTool(models.Model):
     name = models.CharField("이름", max_length=100)
@@ -17,3 +18,10 @@ class Idea(models.Model):
 
     def __str__(self):
         return self.title
+    
+class IdeaStar(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    idea = models.ForeignKey(Idea, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.idea.title}"
