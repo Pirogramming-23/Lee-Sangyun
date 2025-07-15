@@ -3,39 +3,66 @@ from django.http import JsonResponse
 from django.core.paginator import Paginator
 from django.db.models import Count
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
-from .models import Idea, DevTool # IdeaStar는 더 이상 사용하지 않습니다.
+from .models import Idea, DevTool, IdeaStar
+from django.template.loader import render_to_string
 
 def idea_list(request):
     sort = request.GET.get('sort', 'latest')
+    search_term = request.GET.get('search_term', '')
+    devtool_filter = request.GET.get('devtool_filter', '')
+
+    ideas = Idea.objects.all()
+
+    if search_term:
+        ideas = ideas.filter(title__icontains=search_term)
+    if devtool_filter:
+        ideas = ideas.filter(devtool__id=devtool_filter)
 
     if sort == 'interest':
-        ideas = Idea.objects.order_by('-interest', '-pk')
+        ideas = ideas.order_by('-interest', '-pk')
+    elif sort == 'star':
+        ideas = ideas.annotate(star_count=Count('ideastar')).order_by('-star_count', '-pk')
     elif sort == 'name':
-        ideas = Idea.objects.all().order_by('title')
-    else: # latest
-        ideas = Idea.objects.all().order_by('-pk')
+        ideas = ideas.order_by('title')
+    else: 
+        ideas = ideas.order_by('-pk')
+
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        if request.user.is_authenticated:
+            starred_idea_ids = IdeaStar.objects.filter(user=request.user).values_list('idea_id', flat=True)
+            for idea in ideas:
+                idea.is_starred = idea.id in starred_idea_ids
+        
+        html = render_to_string(
+            'ideas/partials/idea_card_list.html',
+            {'ideas': ideas}
+        )
+        return JsonResponse({'html': html})
 
     paginator = Paginator(ideas, 4)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    # 세션에서 찜한 아이디어 ID 목록을 가져옵니다.
-    starred_idea_ids = request.session.get('starred_ideas', [])
-    for idea in page_obj:
-        idea.is_starred = idea.id in starred_idea_ids
+    if request.user.is_authenticated:
+        starred_idea_ids = IdeaStar.objects.filter(user=request.user).values_list('idea_id', flat=True)
+        for idea in page_obj:
+            idea.is_starred = idea.id in starred_idea_ids
 
+    devtools = DevTool.objects.all()
     context = {
         'page_obj': page_obj,
+        'devtools': devtools,
         'sort': sort,
+        'search_term': search_term,
+        'devtool_filter': devtool_filter,
     }
     return render(request, 'ideas/idea_list.html', context)
 
 def idea_detail(request, pk):
     idea = get_object_or_404(Idea, pk=pk)
-    # 상세 페이지에서도 세션을 확인하여 찜 여부를 전달합니다.
-    starred_idea_ids = request.session.get('starred_ideas', [])
-    idea.is_starred = idea.id in starred_idea_ids
+    
+    if request.user.is_authenticated:
+        idea.is_starred = IdeaStar.objects.filter(user=request.user, idea=idea).exists()
     
     return render(request, 'ideas/idea_detail.html', {'idea': idea})
 
@@ -44,8 +71,7 @@ def idea_create(request):
         Idea.objects.create(
             title=request.POST['title'],
             content=request.POST['content'],
-            # ## 이 부분을 추가해야 합니다 ##
-            interest=int(request.POST.get('interest', 0)), 
+            interest=int(request.POST.get('interest', 0)),
             devtool=get_object_or_404(DevTool, pk=request.POST['devtool']),
             image=request.FILES.get('image'),
         )
@@ -54,19 +80,15 @@ def idea_create(request):
         devtools = DevTool.objects.all()
         return render(request, 'ideas/idea_form.html', {'devtools': devtools})
 
-
 def idea_update(request, pk):
     idea = get_object_or_404(Idea, pk=pk)
     if request.method == 'POST':
         idea.title = request.POST['title']
         idea.content = request.POST['content']
-        idea.devtool = get_object_or_404(DevTool, pk=request.POST['devtool'])
-        # ## 이 부분을 추가해야 합니다 ##
         idea.interest = int(request.POST.get('interest', 0))
-        
+        idea.devtool = get_object_or_404(DevTool, pk=request.POST['devtool'])
         if request.FILES.get('image'):
             idea.image = request.FILES.get('image')
-            
         idea.save()
         return redirect('ideas:idea_detail', pk=idea.pk)
     else:
@@ -90,24 +112,22 @@ def update_interest(request, pk):
     idea.save()
     return JsonResponse({'interest': idea.interest})
 
+@login_required
 def toggle_star(request, pk):
     if request.method != 'POST':
         return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
-
-    # 세션에서 찜 목록을 가져오거나, 없으면 빈 리스트로 시작합니다.
-    starred_ideas = request.session.get('starred_ideas', [])
     
-    # 찜 상태를 토글합니다.
-    if pk in starred_ideas:
-        starred_ideas.remove(pk)
-        is_starred = False
-    else:
-        starred_ideas.append(pk)
+    idea = get_object_or_404(Idea, pk=pk)
+    user = request.user
+    
+    star, created = IdeaStar.objects.get_or_create(user=user, idea=idea)
+    
+    if created:
         is_starred = True
-    
-    # 변경된 목록을 다시 세션에 저장합니다.
-    request.session['starred_ideas'] = starred_ideas
-
+    else:
+        star.delete()
+        is_starred = False
+        
     return JsonResponse({'is_starred': is_starred})
 
 def devtool_list(request):

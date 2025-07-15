@@ -9,50 +9,33 @@
 
 <div class="sort-container">
     <strong>정렬:</strong>
-    <a href="?sort=latest">최신순</a>
-    <a href="?sort=interest">관심도순</a>
-    <a href="?sort=name">이름순</a>
+    <a href="?sort=latest&search_term={{ search_term }}&devtool_filter={{ devtool_filter }}">최신순</a>
+    <a href="?sort=interest&search_term={{ search_term }}&devtool_filter={{ devtool_filter }}">관심도순</a>
+    <a href="?sort=star&search_term={{ search_term }}&devtool_filter={{ devtool_filter }}">찜하기순</a>
+    <a href="?sort=name&search_term={{ search_term }}&devtool_filter={{ devtool_filter }}">이름순</a>
 </div>
 
-<div class="card-grid">
-    {% for idea in page_obj %}
-    <div class="card">
-        <div class="thumbnail-container">
-            <a href="#" class="star-icon {% if idea.is_starred %}starred{% endif %}" onclick="toggleStar(event, {{ idea.pk }})">★</a>
-            <a href="{% url 'ideas:idea_detail' pk=idea.pk %}">
-            {% if idea.image %}
-                <img src="{{ idea.image.url }}" alt="{{ idea.title }}">
-            {% else %}
-                <img src="{% static 'ideas/no-image.jpg' %}" alt="No image">
-            {% endif %}
-            </a>
-        </div>
+<form id="search-form" class="search-container" method="GET" action="{% url 'ideas:idea_list' %}">
+    <input type="text" id="search-input" name="search_term" placeholder="제목으로 검색..." value="{{ search_term }}">
+    <select id="devtool-select" name="devtool_filter">
+        <option value="">-- 개발툴 전체 --</option>
+        {% for tool in devtools %}
+        <option value="{{ tool.id }}" {% if tool.id|stringformat:"s" == devtool_filter %}selected{% endif %}>{{ tool.name }}</option>
+        {% endfor %}
+    </select>
+</form>
 
-        <div class="card-body">
-            <h5><a href="{% url 'ideas:idea_detail' pk=idea.pk %}">{{ idea.title }}</a></h5>
-            <div class="interest-box">
-                <span>관심도: </span>
-                <span id="interest-count-{{ idea.pk }}">{{ idea.interest }}</span>
-                <button onclick="updateInterest({{ idea.pk }}, 'plus')">+</button>
-                <button onclick="updateInterest({{ idea.pk }}, 'minus')">-</button>
-            </div>
-            <a href="{% url 'ideas:idea_detail' pk=idea.pk %}" class="detail-btn">자세히 보기</a>
-        </div>
-    </div>
-    {% empty %}
-    <p>등록된 아이디어가 없습니다.</p>
-    {% endfor %}
+<div id="idea-card-grid" class="card-grid">
+    {% include 'ideas/partials/idea_card_list.html' with ideas=page_obj %}
 </div>
 
 <nav class="pagination">
     {% if page_obj.has_previous %}
-    <a href="?page={{ page_obj.previous_page_number }}&sort={{ sort }}">이전</a>
+    <a href="?page={{ page_obj.previous_page_number }}&sort={{ sort }}&search_term={{ search_term }}&devtool_filter={{ devtool_filter }}">이전</a>
     {% endif %}
-    
     <span>{{ page_obj.number }}</span>
-    
     {% if page_obj.has_next %}
-    <a href="?page={{ page_obj.next_page_number }}&sort={{ sort }}">다음</a>
+    <a href="?page={{ page_obj.next_page_number }}&sort={{ sort }}&search_term={{ search_term }}&devtool_filter={{ devtool_filter }}">다음</a>
     {% endif %}
 </nav>
 
@@ -75,10 +58,14 @@ const csrftoken = getCookie('csrftoken');
 
 function toggleStar(event, ideaId) {
     event.preventDefault();
+    {% if not user.is_authenticated %}
+        alert('찜하기 기능은 로그인이 필요합니다.');
+        return;
+    {% endif %}
     const url = `/idea/${ideaId}/star/`;
     fetch(url, {
         method: 'POST',
-        headers: { 'X-CSRFToken': csrftoken, }
+        headers: { 'X-CSRFToken': csrftoken }
     })
     .then(response => response.json())
     .then(data => {
@@ -88,8 +75,7 @@ function toggleStar(event, ideaId) {
         } else {
             starIcon.classList.remove('starred');
         }
-    })
-    .catch(error => console.error('Error:', error));
+    });
 }
 
 function updateInterest(ideaId, action) {
@@ -105,9 +91,29 @@ function updateInterest(ideaId, action) {
     .then(response => response.json())
     .then(data => {
         document.getElementById(`interest-count-${ideaId}`).innerText = data.interest;
-    })
-    .catch(error => console.error('Error:', error));
+    });
 }
-</script>
 
+const searchInput = document.getElementById('search-input');
+const devtoolSelect = document.getElementById('devtool-select');
+const ideaGrid = document.getElementById('idea-card-grid');
+
+function fetchIdeas() {
+    const searchTerm = searchInput.value;
+    const devtoolFilter = devtoolSelect.value;
+    const url = `?search_term=${encodeURIComponent(searchTerm)}&devtool_filter=${devtoolFilter}`;
+
+    fetch(url, {
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    })
+    .then(response => response.json())
+    .then(data => {
+        ideaGrid.innerHTML = data.html;
+        document.querySelector('.pagination').style.display = 'none';
+    });
+}
+
+searchInput.addEventListener('keyup', fetchIdeas);
+devtoolSelect.addEventListener('change', fetchIdeas);
+</script>
 {% endblock %}

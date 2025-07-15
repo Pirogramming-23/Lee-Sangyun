@@ -1,0 +1,27 @@
+{% load static %}
+{% for idea in ideas %}
+<div class="card">
+    <div class="thumbnail-container">
+        <a href="#" class="star-icon {% if idea.is_starred %}starred{% endif %}" onclick="toggleStar(event, {{ idea.pk }})">★</a>
+        <a href="{% url 'ideas:idea_detail' pk=idea.pk %}">
+        {% if idea.image %}
+            <img src="{{ idea.image.url }}" alt="{{ idea.title }}">
+        {% else %}
+            <img src="{% static 'ideas/no-image.jpg' %}" alt="No image">
+        {% endif %}
+        </a>
+    </div>
+    <div class="card-body">
+        <h5><a href="{% url 'ideas:idea_detail' pk=idea.pk %}">{{ idea.title }}</a></h5>
+        <div class="interest-box">
+            <span>관심도: </span>
+            <span id="interest-count-{{ idea.pk }}">{{ idea.interest }}</span>
+            <button onclick="updateInterest({{ idea.pk }}, 'plus')">+</button>
+            <button onclick="updateInterest({{ idea.pk }}, 'minus')">-</button>
+        </div>
+        <a href="{% url 'ideas:idea_detail' pk=idea.pk %}" class="detail-btn">자세히 보기</a>
+    </div>
+</div>
+{% empty %}
+<p>검색 결과가 없습니다.</p>
+{% endfor %}

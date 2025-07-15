@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
 
 class DevTool(models.Model):
     name = models.CharField("이름", max_length=100)
@@ -20,7 +20,7 @@ class Idea(models.Model):
         return self.title
     
 class IdeaStar(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     idea = models.ForeignKey(Idea, on_delete=models.CASCADE)
 
     def __str__(self):
