@@ -1,0 +1,91 @@
+{% extends 'ideas/base.html' %}
+
+{% block content %}
+<div class="header-container">
+    <h1>아이디어 목록</h1>
+    <a href="{% url 'ideas:idea_create' %}" class="btn">새 아이디어 등록</a>
+</div>
+
+<div class="sort-container">
+    <strong>정렬:</strong>
+    <a href="?sort=latest">최신순</a>
+    <a href="?sort=interest">관심도순</a>
+    <a href="?sort=name">이름순</a>
+</div>
+
+<div class="card-grid">
+    {% for idea in page_obj %}
+    <div class="card">
+        {% if idea.image %}
+            <img src="{{ idea.image.url }}" alt="{{ idea.title }}">
+        {% else %}
+            <img src="https://via.placeholder.com/300x200.png?text=No+Image">
+        {% endif %}
+        <div class="card-body">
+            <h5><a href="{% url 'ideas:idea_detail' pk=idea.pk %}">{{ idea.title }}</a></h5>
+            
+            <div class="interest-box">
+                <span>관심도: </span>
+                <span id="interest-count-{{ idea.pk }}">{{ idea.interest }}</span>
+                <span> ⭐️</span>
+                <button onclick="updateInterest({{ idea.pk }}, 'plus')">+</button>
+                <button onclick="updateInterest({{ idea.pk }}, 'minus')">-</button>
+            </div>
+
+            <a href="{% url 'ideas:idea_detail' pk=idea.pk %}" class="btn-secondary">자세히 보기</a>
+        </div>
+    </div>
+    {% empty %}
+    <p>등록된 아이디어가 없습니다.</p>
+    {% endfor %}
+</div>
+
+<nav class="pagination">
+    {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}&sort={{ sort }}">이전</a>
+    {% endif %}
+    
+    <span>{{ page_obj.number }}</span>
+    
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}&sort={{ sort }}">다음</a>
+    {% endif %}
+</nav>
+
+<script>
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+const csrftoken = getCookie('csrftoken');
+
+function updateInterest(ideaId, action) {
+    const url = `/idea/${ideaId}/update_interest/`;
+    
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': csrftoken,
+        },
+        body: `action=${action}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById(`interest-count-${ideaId}`).innerText = data.interest;
+    })
+    .catch(error => console.error('Error:', error));
+}
+</script>
+
+{% endblock %}

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Idea Manager</title>
+    
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'ideas/style.css' %}">
+</head>
+<body>
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a class="nav-brand" href="{% url 'ideas:idea_list' %}">💡 Idea Manager</a>
+            <ul>
+                <li><a href="{% url 'ideas:idea_list' %}">아이디어 관리</a></li>
+                <li><a href="{% url 'ideas:devtool_list' %}">개발툴 관리</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    </body>
+</html>
