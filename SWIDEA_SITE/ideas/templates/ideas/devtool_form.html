@@ -1,0 +1,26 @@
+{% extends 'ideas/base.html' %}
+
+{% block content %}
+    <h1>{% if devtool %}개발툴 수정{% else %}새 개발툴 등록{% endif %}</h1>
+    <hr>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="name">이름</label>
+            <input type="text" id="name" name="name" value="{{ devtool.name|default_if_none:'' }}" required>
+        </div>
+        <div class="form-group">
+            <label for="kind">종류</label>
+            <input type="text" id="kind" name="kind" value="{{ devtool.kind|default_if_none:'' }}" required>
+        </div>
+        <div class="form-group">
+            <label for="content">설명</label>
+            <textarea id="content" name="content" rows="5" required>{{ devtool.content|default_if_none:'' }}</textarea>
+        </div>
+        
+        <div class="button-group">
+            <button type="submit" class="btn">{% if devtool %}수정 완료{% else %}등록하기{% endif %}</button>
+            <a href="{% if devtool %}{% url 'ideas:devtool_detail' pk=devtool.pk %}{% else %}{% url 'ideas:devtool_list' %}{% endif %}" class="btn btn-secondary">취소</a>
+        </div>
+    </form>
+{% endblock %}

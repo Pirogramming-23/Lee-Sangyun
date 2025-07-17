@@ -1,0 +1,119 @@
+{% extends 'ideas/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="header-container">
+    <h1>아이디어 목록</h1>
+    <a href="{% url 'ideas:idea_create' %}" class="btn">새 아이디어 등록</a>
+</div>
+
+<div class="sort-container">
+    <strong>정렬:</strong>
+    <a href="?sort=latest&search_term={{ search_term }}&devtool_filter={{ devtool_filter }}">최신순</a>
+    <a href="?sort=interest&search_term={{ search_term }}&devtool_filter={{ devtool_filter }}">관심도순</a>
+    <a href="?sort=star&search_term={{ search_term }}&devtool_filter={{ devtool_filter }}">찜하기순</a>
+    <a href="?sort=name&search_term={{ search_term }}&devtool_filter={{ devtool_filter }}">이름순</a>
+</div>
+
+<form id="search-form" class="search-container" method="GET" action="{% url 'ideas:idea_list' %}">
+    <input type="text" id="search-input" name="search_term" placeholder="제목으로 검색..." value="{{ search_term }}">
+    <select id="devtool-select" name="devtool_filter">
+        <option value="">-- 개발툴 전체 --</option>
+        {% for tool in devtools %}
+        <option value="{{ tool.id }}" {% if tool.id|stringformat:"s" == devtool_filter %}selected{% endif %}>{{ tool.name }}</option>
+        {% endfor %}
+    </select>
+</form>
+
+<div id="idea-card-grid" class="card-grid">
+    {% include 'ideas/partials/idea_card_list.html' with ideas=page_obj %}
+</div>
+
+<nav class="pagination">
+    {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}&sort={{ sort }}&search_term={{ search_term }}&devtool_filter={{ devtool_filter }}">이전</a>
+    {% endif %}
+    <span>{{ page_obj.number }}</span>
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}&sort={{ sort }}&search_term={{ search_term }}&devtool_filter={{ devtool_filter }}">다음</a>
+    {% endif %}
+</nav>
+
+<script>
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+const csrftoken = getCookie('csrftoken');
+
+function toggleStar(event, ideaId) {
+    event.preventDefault();
+    {% if not user.is_authenticated %}
+        alert('찜하기 기능은 로그인이 필요합니다.');
+        return;
+    {% endif %}
+    const url = `/idea/${ideaId}/star/`;
+    fetch(url, {
+        method: 'POST',
+        headers: { 'X-CSRFToken': csrftoken }
+    })
+    .then(response => response.json())
+    .then(data => {
+        const starIcon = event.target;
+        if (data.is_starred) {
+            starIcon.classList.add('starred');
+        } else {
+            starIcon.classList.remove('starred');
+        }
+    });
+}
+
+function updateInterest(ideaId, action) {
+    const url = `/idea/${ideaId}/update_interest/`;
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': csrftoken,
+        },
+        body: `action=${action}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById(`interest-count-${ideaId}`).innerText = data.interest;
+    });
+}
+
+const searchInput = document.getElementById('search-input');
+const devtoolSelect = document.getElementById('devtool-select');
+const ideaGrid = document.getElementById('idea-card-grid');
+
+function fetchIdeas() {
+    const searchTerm = searchInput.value;
+    const devtoolFilter = devtoolSelect.value;
+    const url = `?search_term=${encodeURIComponent(searchTerm)}&devtool_filter=${devtoolFilter}`;
+
+    fetch(url, {
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    })
+    .then(response => response.json())
+    .then(data => {
+        ideaGrid.innerHTML = data.html;
+        document.querySelector('.pagination').style.display = 'none';
+    });
+}
+
+searchInput.addEventListener('keyup', fetchIdeas);
+devtoolSelect.addEventListener('change', fetchIdeas);
+</script>
+{% endblock %}
