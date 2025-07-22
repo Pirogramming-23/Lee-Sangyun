@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="feed">
+
+    <div class="story-bar">
+        <a href="{% url 'posts:story_create' %}" class="story-item add-story">
+            <div class="story-ring add-story-ring">
+                <i class="fas fa-plus"></i>
+            </div>
+            <span class="story-username">내 스토리</span>
+        </a>
+        {% for s_user in story_users %}
+        <div class="story-item" data-user-id="{{ s_user.id }}">
+            <div class="story-ring">
+                <div class="story-profile-pic">
+                    <i class="fas fa-user-circle fa-3x"></i>
+                </div>
+            </div>
+            <span class="story-username">{{ s_user.username }}</span>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% for post in posts %}
+    <article class="post-card" id="post-{{ post.id }}">
+        <header class="post-header">
+            <div class="post-author">
+                <i class="fas fa-user-circle fa-2x"></i>
+                <span class="post-author-name">{{ post.author.username }}</span>
+            </div>
+        </header>
+
+        <div class="post-image-container">
+            <img src="{{ post.image.url }}" class="post-image" alt="Post image">
+        </div>
+
+        <div class="post-footer">
+            <div class="post-actions">
+                <button class="action-btn like-btn" data-post-id="{{ post.id }}">
+                    <i class="far fa-heart"></i>
+                </button>
+                <button class="action-btn">
+                    <i class="far fa-comment"></i>
+                </button>
+            </div>
+
+            <div class="post-likes">
+                좋아요 <span class="like-count">{{ post.like_set.count }}</span>개
+            </div>
+
+            <div class="post-content">
+                <span class="post-author-name">{{ post.author.username }}</span>
+                {{ post.content }}
+            </div>
+
+            <div class="post-comments">
+                <div class="comment-list">
+                    {% for comment in post.comments.all %}
+                        <div class="comment-item" id="comment-{{ comment.id }}">
+                            <div>
+                                <span class="comment-author">{{ comment.author.username }}</span>
+                                <span class="comment-content">{{ comment.content }}</span>
+                            </div>
+                            {% if comment.author == request.user %}
+                            <button class="delete-comment-btn" data-comment-id="{{ comment.id }}">×</button>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <div class="post-timestamp">{{ post.created_at|date:"Y년 m월 d일" }}</div>
+
+            <form class="comment-form mt-2" data-post-id="{{ post.id }}">
+                <input type="text" class="comment-input" name="content" placeholder="댓글 달기...">
+                <button class="comment-submit-btn" type="submit">게시</button>
+            </form>
+        </div>
+    </article>
+    {% empty %}
+        <p class="text-center">아직 게시물이 없습니다. 첫 게시물을 작성해보세요!</p>
+    {% endfor %}
+</div>
+
+<div class="story-modal-overlay" id="story-modal">
+    <button class="story-close-btn">&times;</button>
+    <div class="story-modal-content">
+        <div class="story-progress-bar" id="story-progress-bar"></div>
+        <img src="" alt="Story Image" id="story-image" class="story-image">
+        <button class="story-nav-btn prev" id="story-prev-btn">&#10094;</button>
+        <button class="story-nav-btn next" id="story-next-btn">&#10095;</button>
+    </div>
+</div>
+
+{% endblock %}

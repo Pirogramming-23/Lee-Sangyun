@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-left">
+        <img src="https://static.cdninstagram.com/rsrc.php/v3/y4/r/ItTndlZM2n2.png" alt="Instagram on phone">
+    </div>
+    <div class="auth-right">
+        <div class="form-box login-box">
+            <h1 class="logo-font text-center">Pirostagram</h1>
+            <form method="post" class="mt-4">
+                {% csrf_token %}
+                <div class="mb-2">
+                    <input type="text" name="username" class="form-control" placeholder="사용자 이름" required>
+                </div>
+                <div class="mb-3">
+                    <input type="password" name="password" class="form-control" placeholder="비밀번호" required>
+                </div>
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary">로그인</button>
+                </div>
+            </form>
+            <div class="text-center mt-3">
+                <a href="#" class="forgot-password">비밀번호를 잊으셨나요?</a>
+            </div>
+        </div>
+        <div class="form-box signup-link-box">
+            <p>계정이 없으신가요? <a href="{% url 'posts:signup' %}">가입하기</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}
